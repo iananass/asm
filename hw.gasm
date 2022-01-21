@@ -1,0 +1,30 @@
+.code16
+.global init
+
+init:
+	mov $0x0e, %ah 
+
+	mov $msg_end - 1, %cx
+
+	mov $msg, %bx
+	mov (%bx), %al
+
+
+print:	
+	int $0x10
+	inc %bx
+	mov (%bx), %al
+	cmp %bx, %cx
+	jne print
+
+done:
+	hlt
+	
+
+msg: .asciz "Hello world!"
+msg_end:
+
+
+eod:
+.fill 510-(eod-init),1,0
+.word 0xaa55
