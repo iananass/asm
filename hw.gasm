@@ -3,28 +3,26 @@
 
 init:
 	mov $0x0e, %ah 
-
-	mov $msg_end - 1, %cx
-
-	mov $msg, %bx
-	mov (%bx), %al
-
+	
+	mov $msg, %si
 
 print:	
+	lodsb
+	cmp $0, %al
+	je done
 	int $0x10
-	inc %bx
-	mov (%bx), %al
-	cmp %bx, %cx
-	jne print
+	jmp print
+	
+
 
 done:
 	hlt
 	
 
-msg: .asciz "Hello world!"
-msg_end:
+msg: 
+	.asciz "Hello world!"
 
 
 eod:
-.fill 510-(eod-init),1,0
-.word 0xaa55
+	.fill 510-(eod-init),1,0
+	.word 0xaa55
