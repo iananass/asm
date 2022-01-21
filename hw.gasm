@@ -5,11 +5,13 @@ start:
 	mov $0x0e, %ah 
 	
 	mov $msg, %si
+	pushl $10
 	call print
 	hlt
 
 
 print:	
+	popl %eax
 	lodsb
 	cmp $0, %al
 	je done
