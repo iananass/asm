@@ -1,10 +1,13 @@
 .code16
 .global init
 
-init:
+start:
 	mov $0x0e, %ah 
 	
 	mov $msg, %si
+	call print
+	hlt
+
 
 print:	
 	lodsb
@@ -13,10 +16,8 @@ print:
 	int $0x10
 	jmp print
 	
-
-
-done:
-	hlt
+	done:
+		ret
 	
 
 msg: 
@@ -24,5 +25,5 @@ msg:
 
 
 eod:
-	.fill 510-(eod-init),1,0
+	.fill 510-(eod-start),1,0
 	.word 0xaa55
